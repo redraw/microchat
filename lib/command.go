@@ -1,4 +1,4 @@
-package main
+package lib
 
 type commandID int
 
@@ -9,6 +9,9 @@ const (
 	CMD_MSG
 	CMD_MSG_USER
 	CMD_LIST_MEMBERS
+	CMD_WHOIS
+	CMD_ME
+	CMD_HELP
 	CMD_QUIT
 )
 
