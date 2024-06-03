@@ -22,11 +22,11 @@ builds:
       - linux
       - windows
       - darwin
+      - android
     goarch:
       - arm
       - arm64
       - amd64
-      - 386
 
 archives:
   - format: tar.gz
