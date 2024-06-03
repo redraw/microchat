@@ -46,7 +46,6 @@ func (c *client) readInput() {
 		}
 
 		msg = strings.Trim(msg, "\r\n")
-
 		args := strings.Split(msg, " ")
 		cmd := strings.TrimSpace(args[0])
 
@@ -57,13 +56,13 @@ func (c *client) readInput() {
 				c.commands <- command{
 					id:     CMD_NICK,
 					client: c,
-					args:   args,
+					args:   args[1:],
 				}
 			case "/join":
 				c.commands <- command{
 					id:     CMD_JOIN,
 					client: c,
-					args:   args,
+					args:   args[1:],
 				}
 			case "/rooms":
 				c.commands <- command{
@@ -74,7 +73,7 @@ func (c *client) readInput() {
 				c.commands <- command{
 					id:     CMD_MSG_USER,
 					client: c,
-					args:   args,
+					args:   args[1:],
 				}
 			case "/members":
 				c.commands <- command{
@@ -85,7 +84,7 @@ func (c *client) readInput() {
 				c.commands <- command{
 					id:     CMD_WHOIS,
 					client: c,
-					args:   args,
+					args:   args[1:],
 				}
 			case "/me":
 				c.commands <- command{

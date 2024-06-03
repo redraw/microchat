@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"crypto/tls"
 	"fmt"
+	"io"
 	"log"
 	"net"
 	"os"
@@ -80,6 +81,10 @@ func (c *Client) readMessages() {
 		msg, err := reader.ReadString('\n')
 		if err != nil {
 			fmt.Printf("error reading from server: %v", err)
+		}
+		if err == io.EOF {
+			fmt.Println("Connection closed by server.")
+			return
 		}
 		fmt.Print("\r" + msg + PROMPT)
 	}

@@ -109,7 +109,7 @@ func (s *Server) newClient(conn net.Conn) *client {
 	}
 
 	s.addMember(client)
-	s.join(client, []string{"/join", "#lobby"})
+	s.join(client, []string{"#lobby"})
 
 	return client
 }
@@ -130,13 +130,13 @@ func (s *Server) removeMember(c *client) {
 }
 
 func (s *Server) nick(c *client, args []string) {
-	if len(args) < 2 {
+	if len(args) < 1 {
 		c.msg("nick is required. usage: /nick NAME")
 		return
 	}
 
 	previousNick := c.nick
-	newNick := args[1]
+	newNick := args[0]
 
 	if s.findClientByNick(newNick) != nil {
 		c.msg(fmt.Sprintf("nick %s is already taken", newNick))
@@ -171,11 +171,11 @@ func (s *Server) getOrCreateRoom(name string) *room {
 }
 
 func (s *Server) join(c *client, args []string) {
-	if len(args) < 2 {
+	if len(args) < 1 {
 		c.msg("room name is required. usage: /join ROOM_NAME")
 		return
 	}
-	r := s.getOrCreateRoom(args[1])
+	r := s.getOrCreateRoom(args[0])
 
 	c.join(r)
 	c.msg(fmt.Sprintf("welcome to %s", r.name))
@@ -200,14 +200,14 @@ func (s *Server) msg(c *client, args []string) {
 }
 
 func (s *Server) msgUser(c *client, args []string) {
-	if len(args) < 3 {
+	if len(args) < 2 {
 		c.msg("message is required, usage: /msg NICK MSG")
 		return
 	}
 
-	receiver := s.findClientByNick(args[1])
+	receiver := s.findClientByNick(args[0])
 	if receiver == nil {
-		c.msg(fmt.Sprintf("user %s not found", args[1]))
+		c.msg(fmt.Sprintf("user %s not found", args[0]))
 		return
 	}
 
@@ -238,12 +238,12 @@ func (s *Server) listMembers(c *client) {
 }
 
 func (s *Server) whois(c *client, args []string) {
-	if len(args) < 2 {
+	if len(args) < 1 {
 		c.msg("nick is required. usage: /whois NICK")
 		return
 	}
 
-	nick := args[1]
+	nick := args[0]
 	client := s.findClientByNick(nick)
 	if client == nil {
 		c.msg(fmt.Sprintf("user %s not found", nick))
