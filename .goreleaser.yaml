@@ -22,6 +22,11 @@ builds:
       - linux
       - windows
       - darwin
+    goarch:
+      - arm
+      - arm64
+      - amd64
+      - 386
 
 archives:
   - format: tar.gz
